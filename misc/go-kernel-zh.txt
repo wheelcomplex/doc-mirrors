@@ -1,0 +1,94 @@
+
+如何在裸机上跑go程序 (how to run go program in a barely machine)
+
+from: https://groups.google.com/forum/#!topic/golang-china/I1sAcjpihoY
+
+runtime目录曾经有个tiny的目录用来在裸机上跑go，现在的代码里面已经没有了，如果在现在的runtime里面再添加tiny需要做哪些工作? 
+纯粹个人兴趣，想借机了解一下go的runtime，谢谢大家了！
+
+假设你只是关心如何让 runtime 包跑起来。出了 runtime 之外，要想在裸机上用 Go，
+os, syscall, net 等包都需要大量的工作。
+
+对于 runtime 来说，你需要实现操作系统的接口。
+具体地来说，你可以看看 runtime 下所有 *linux*.go 文件，他们提供的函数都得重新
+实现，工作量不小。
+
+实际上，如果你真的要做这个，我的建议是从 NaCl port 上入手。NaCl 的接口比
+其他操作系统的都简单些。
+
+之所以删除 tiny runtime 就是因为后来 runtime 对于操作系统的依赖变多了，继续维护
+那个变得太麻烦了。
+
+原先 Go 的 runtime 是只需要一个操作系统线程就可以运行的，但是现在的 runtime 还
+开始执行 main 函数的时候就已经创建了 3 个操作系统线程了。
+也就是说，线程同步接口（sleep, wakeup）已经是不可缺少的了。
+
+内存分配方面，Go 假设操作系统提供虚拟内存，如果你的裸机 port 直接用物理地址的
+话，需要额外修改（物理地址是可以有空洞的，但是虚拟地址不会有空洞）
+
+GC 方面，新的并发 GC 也依赖于多个线程由操作系统调度。
+
+再问一个问题哈，添加新的port是不是只需要往 build.go的okgoos添加一项，之后就可以设置GOOS来编译了吗？
+
+cmd/dist/build.go 里面的 okgoos 只管 cmd/dist，实际上你还需要修改 go/build/syslist.go 让
+Go 工具认识这个 GOOS。
+
+cmd/internal/obj (Go 1.5 之前的 cmd/ld) 里面还有一个 HEADTYPE 的概念，一般是一个 GOOS
+对应一个。如果你要做裸机跑的 Go，可以用支持加载 ELF 文件的 grub 之类的 bootloader，
+这样你可以复用 obj.Hlinux。这样一来，如果不考虑动态链接，工具链上倒是不需要啥改动。
+
+（TLS的问题，在 linux/amd64 上，静态链接的 Go 程序通过 FS 访问 TLS，但是如果你只
+做单处理器的，只要给 FS.base MSR 加载一个可用的地址就好了，注意 FS.base - 8 才是
+存放 g 的地址）
+
+假设你知道如何初始化 amd64 系统，开启 paging 和进入 long mode，以及常用的硬件的
+操作方式（至少得有串口，用轮询方式访问倒是很简单）和基本的 Go runtime 结构，我设想
+的步骤大概是这样的：
+
+1. 给 cmd/asm 和 cmd/internal/obj/x86 增加 privilege mode instructions 的支持，
+看包里已有的注释。
+2. 去掉 runtime 的 sysmon 和 concurrent GC (background mark) 线程，本步骤的目标是
+all.bash 尽可能通过（去掉了 sysmon，syscall preemption 相关的估计过不了了），且
+$GOROOT/test/sieve.go 只需要一个线程。你可以用 Linux port 为基础，但是我倾向于用
+NaCl，这个比较简单，但是和 Linux port 相比不太容易调试。
+3. 削减 runtime/sys_$GOOS_amd64.s 里面的函数到只用到 runtime.mmap 和 runtime.write。
+也就是去掉 clone, signal, epoll 等一切无关内容。
+注意，一定要保留 P 概念，以后实现 MP 的时候有用。我没想好 M 是不是一定会和 P 一一
+对应，但是估计会是的。
+或许 runtime.nanotime 和 time.now 也需要保留，不过作为一级近似，可以用 rdtsc 来代替，
+不要在 runtime.nanotime 里访问 CMOS 时间，太慢了。
+4. 用 Go 汇编语言写一个程序初始化 CPU，做到能用 grub 引导（或者 qemu -kernel）。
+搞明白如何用 cmd/asm 编译纯汇编程序并用 cmd/6l 连接可执行程序。这步结束后，你需要
+能操作页表，能输出 hello world 到串口终端。
+5. 实现第三步剩下需要实现的 runtime.write (有了上一步的基础，这个 trivial) 和 runtime.mmap，
+这个可以基本用 Go 实现，但是必须仔细检查，不能让你的代码分配内存或是有 write barrier
+(//go:nowritebarrier，我猜测做到了这步的不需要这个提示了)。
+假设用 rdtsc 来模拟 runtime.nanotime，那么直到本步骤你都可以保持 cli 的中态。
+6. 其他？？我目前只能想到这前5步，理论上完成了前5步，就应该能在裸机上跑 concurrent
+sieve 了。但是由于我没做过，肯定会缺少某些必要步骤的。等你完成了，记得把经历写成
+文章发表哦。
+7. 到了这一步，就该去 golang-nuts/dev/china 等邮件列表上发公告了。一定会有人感兴趣
+的（至少我是感兴趣的，哈哈）我不知道官方会不会接收这个 port，毕竟这个 port 要通过
+all.bash 有点悬。
+8. 什么？还不够过瘾，我底下讨论了几个 GC 相关的有意思的改动，可以试试；当然你也可
+以继续给他加磁盘和网络驱动，这个我倒是想过，直接用 KVM 的 virtio 驱动；还有是 MP
+的支持，这个要复杂得多了，不过 Go 的 runtime 的并发安全做得是非常好的，主要大概是
+parse MP table（或者ACPI MADT），设置 LAPIC 。还有区分内核态和用户态？总之这个
+继续下去有无穷多的事情可以做。（我知道有人是对 GOOS=kvm 感兴趣的，恩）
+
+
+整个项目比较大，祝好运！
+
+
+当然，裸机上的 Go runtime 还有一些有意思的事情可以做。比如我们（+ rsc, rlh）曾经讨论
+过用基于 page dirty bit 来实现 write barrier，和现在每个 slot 写入都需要调用 write barrier
+函数相比，write barrier 的 overhead 几乎为零，但是粒度不如现在（一个 page 一旦 dirtied，
+则无论如何 GC 需要 mark 整个页面），因此整体 GC 性能的影响不好说。可以做个实现看看。
+当然，在页表里东手脚来辅助 GC，最有意义的是 generational GC，所有老的 generation 的
+页面都设置只读。
+
+PS：Stanford 搞了一个 DUNE [1]，利用 VT-x 把这些 CPU 特权特性暴露给用户态进程。
+在这上面也可以前面说的 GC 特性。如果 DUNE 能进入 Linux 内核，没准将来真的会用页表
+来辅助 GC。
+
+[1] http://dune.scs.stanford.edu/belay:dune.pdf
