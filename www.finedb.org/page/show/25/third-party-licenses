@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>FineDB: Third party licenses</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+		<link href="/css/bootstrap-2.3.1.css" rel="stylesheet" media="screen" />
+	<script src="/js/bootstrap.min.js" type="text/javascript"></script>
+		<link href="/css/prettify.css" type="text/css" rel="stylesheet" />
+	<script src="/js/prettify.js" type="text/javascript"></script>
+		<link href="/css/style.css" rel="stylesheet" media="screen" />
+	<script src="/js/ark.js" type="text/javascript"></script>
+				<script type="text/javascript" src="//finedb.disqus.com/embed.js" async></script>
+	</head>
+<body onload="prettyPrint()" >
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container-fluid">
+			<a href="/" class="brand">FineDB</a>
+						<ul class="nav pull-right">
+									<li><a href="/identification/login">Login</a></li>
+							</ul>
+		</div>
+	</div>
+</div>
+<style type="text/css">
+	table.bordered {
+		border: 1px solid #888;
+	}
+	table.bordered th {
+		border: 1px solid #888;
+		padding: 3px;
+		background-color: #ddd;
+	}
+	table.bordered td {
+		border: 1px solid #888;
+		padding: 3px;
+		background-color: #fff;
+	}
+	div.bordered {
+		border: 1px solid #888;
+		display: inline-block;
+	}
+</style>
+
+<div id="modal-move" class="modal hide fade" data-keyboard="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3>Move page</h3>
+	</div>
+	<div class="modal-body">
+		<div style="margin-bottom: 8px;">
+			<i class="icon-home"></i> Homepage
+			<button class="btn" onclick="ark.movePage(25, 0)">Move</button>
+		</div>
+					<div id="move-list-0">
+		<form class="form-inline" onsubmit="return false" style="margin-bottom: 8px;">
+			<select id="sel-move-0" onchange="ark.selectMove(25, 0, this.value)" style="width: 400px;">
+				<option value="0">Choose a page...</option>
+															<option value="18">Licenses</option>
+																				<option value="1">Protocol</option>
+																				<option value="20">Internal design</option>
+																				<option value="16">Development status</option>
+																				<option value="17">Comparison with other database systems</option>
+																				<option value="3">Links</option>
+												</select>
+			<button id="btn-move-0" onclick="ark.movePage(25, 0)" class="btn hide">Move</button>
+		</form>
+	</div>
+	<div id="move-sub-0"></div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" onclick="$('#modal-move').modal('hide')">Cancel</a>
+	</div>
+</div>
+<div class="container-fluid">
+	<div class="row-fluid">
+				<div class="span3">
+				<div class="well well-small clearfix" style="margin-bottom: 0.5em;">
+					<a href="/page/show/18" class="btn btn-info" title="Go to parent page"><i class="icon-arrow-up"></i></a>
+								</div>
+
+		</div>
+				<div class="span9">
+											<ul class="breadcrumb">
+					<li><a href="/" title="Home"><i class="icon-home"></i></a> <span class="divider">/</span></li>
+											<li>
+							<a href="/page/show/18">Licenses</a>
+													</li>
+									</ul>
+								<h1>Third party licenses</h1>
+								<div id="content" class="well">
+					<p>FineDB uses some external libraries, which are all open-sourced in a way that is compatible with FineDB's own license.</p>
+
+<h2 id="LightningDB">LightningDB</h2>
+<p><a href="http://symas.com/mdb/" target="_blank" rel="nofollow">LMDB</a> is licensed under the <a href="http://www.openldap.org/software/release/license.html" target="_blank" rel="nofollow">OpenLDAP Public License</a>.</p>
+
+<h2 id="Nanomsg">Nanomsg</h2>
+<p><a href="http://nanomsg.org/" target="_blank" rel="nofollow">Nanomsg</a> is licensed under <a href="http://opensource.org/licenses/MIT" target="_blank" rel="nofollow">MIT/X11 license</a>.</p>
+
+<h2 id="Snappy">Snappy</h2>
+<p><a href="https://code.google.com/p/snappy/" target="_blank" rel="nofollow">Snappy</a> is placed under the <a href="http://opensource.org/licenses/BSD-3-Clause" target="_blank" rel="nofollow">BSD 3-clause license</a>.</p>
+
+<h2 id="Linenoise">Linenoise</h2>
+<p><a href="https://github.com/antirez/linenoise" target="_blank" rel="nofollow">Linenoise</a> is licensed under the terms of a permissive BSD-derived license.</p>
+
+<h2 id="Ylib">Ylib</h2>
+<p><a href="http://ylib.amaury.net" target="_blank" rel="nofollow">Ylib</a> is licensed under the terms of the <a href="http://www.gnu.org/licenses/lgpl.html" target="_blank" rel="nofollow">GNU Lesser General Public License</a>.</p>
+				</div>
+																					<div id="disqus_thread"></div>
+									</div>
+	</div>
+</div>
+
+
+<footer class="footer">
+	<div class="container">
+		<p>
+			© 2013, Amaury Bouchard |
+			<a href="http://skriv.org" target="_blank">Skriv</a> [write/work/organize]
+		</p>
+	</div>
+</footer>
+
+<script type="text/javascript"><!--
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-43066921-1']);
+  _gaq.push(['_trackPageview']);
+
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+//--></script>
+
+</body>
+</html>

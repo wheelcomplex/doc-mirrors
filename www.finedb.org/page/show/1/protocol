@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>FineDB: Protocol</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+		<link href="/css/bootstrap-2.3.1.css" rel="stylesheet" media="screen" />
+	<script src="/js/bootstrap.min.js" type="text/javascript"></script>
+		<link href="/css/prettify.css" type="text/css" rel="stylesheet" />
+	<script src="/js/prettify.js" type="text/javascript"></script>
+		<link href="/css/style.css" rel="stylesheet" media="screen" />
+	<script src="/js/ark.js" type="text/javascript"></script>
+				<script type="text/javascript" src="//finedb.disqus.com/embed.js" async></script>
+	</head>
+<body onload="prettyPrint()" >
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container-fluid">
+			<a href="/" class="brand">FineDB</a>
+						<ul class="nav pull-right">
+									<li><a href="/identification/login">Login</a></li>
+							</ul>
+		</div>
+	</div>
+</div>
+<style type="text/css">
+	table.bordered {
+		border: 1px solid #888;
+	}
+	table.bordered th {
+		border: 1px solid #888;
+		padding: 3px;
+		background-color: #ddd;
+	}
+	table.bordered td {
+		border: 1px solid #888;
+		padding: 3px;
+		background-color: #fff;
+	}
+	div.bordered {
+		border: 1px solid #888;
+		display: inline-block;
+	}
+</style>
+
+<div id="modal-move" class="modal hide fade" data-keyboard="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3>Move page</h3>
+	</div>
+	<div class="modal-body">
+		<div style="margin-bottom: 8px;">
+			<i class="icon-home"></i> Homepage
+			<button class="btn" onclick="ark.movePage(1, 0)">Move</button>
+		</div>
+					<div id="move-list-0">
+		<form class="form-inline" onsubmit="return false" style="margin-bottom: 8px;">
+			<select id="sel-move-0" onchange="ark.selectMove(1, 0, this.value)" style="width: 400px;">
+				<option value="0">Choose a page...</option>
+															<option value="18">Licenses</option>
+																													<option value="20">Internal design</option>
+																				<option value="16">Development status</option>
+																				<option value="17">Comparison with other database systems</option>
+																				<option value="3">Links</option>
+												</select>
+			<button id="btn-move-0" onclick="ark.movePage(1, 0)" class="btn hide">Move</button>
+		</form>
+	</div>
+	<div id="move-sub-0"></div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" onclick="$('#modal-move').modal('hide')">Cancel</a>
+	</div>
+</div>
+<div class="container-fluid">
+	<div class="row-fluid">
+				<div class="span3">
+				<div class="well well-small clearfix" style="margin-bottom: 0.5em;">
+					<a href="/page/show/0" class="btn btn-info" title="Go to parent page"><i class="icon-arrow-up"></i></a>
+								</div>
+		<ul class="_pages-sortable nav nav-tabs nav-stacked" style="background-color: #f8f8f8;">
+					<li id="subpage-8" title="Defines the database to use for subsequent requests.
+
+Request
+Default database
+Set back to the default database.
+------- (...)">
+				<a href="/page/show/8/setdb">
+					<i class="icon-chevron-right pull-right" style="opacity: 0.5;"></i>
+					SETDB
+				</a>
+			</li>
+							<li class="divider"></li>
+								<li id="subpage-9" title="Returns the value associated to the given key.
+
+Request
+-----------------------------------------
+| request | key length (...)">
+				<a href="/page/show/9/get">
+					<i class="icon-chevron-right pull-right" style="opacity: 0.5;"></i>
+					GET
+				</a>
+			</li>
+							<li class="divider"></li>
+								<li id="subpage-10" title="Delete a key/value pair from the database.
+
+Request
+-----------------------------------------
+| request | key length | k (...)">
+				<a href="/page/show/10/del">
+					<i class="icon-chevron-right pull-right" style="opacity: 0.5;"></i>
+					DEL
+				</a>
+			</li>
+							<li class="divider"></li>
+								<li id="subpage-11" title="Put a key/value pair in the database. It is added if needed; if the key already exists, it is updated.
+
+Request
+-------- (...)">
+				<a href="/page/show/11/put">
+					<i class="icon-chevron-right pull-right" style="opacity: 0.5;"></i>
+					PUT
+				</a>
+			</li>
+							<li class="divider"></li>
+								<li id="subpage-12" title="Increments or decrements a number, and returns the new value. If the key doesn&#039;t exist, it is set to 0 before executing  (...)">
+				<a href="/page/show/12/inc-dec">
+					<i class="icon-chevron-right pull-right" style="opacity: 0.5;"></i>
+					INC / DEC
+				</a>
+			</li>
+							<li class="divider"></li>
+								<li id="subpage-13" title="
+START: Start a transaction. If a transaction is running, it is stopped and a new one is started.
+
+STOP: Stop a started  (...)">
+				<a href="/page/show/13/start-stop">
+					<i class="icon-chevron-right pull-right" style="opacity: 0.5;"></i>
+					START / STOP
+				</a>
+			</li>
+							<li class="divider"></li>
+								<li id="subpage-14" title="Returns the list of keys in the database.
+
+Request
+-----------
+| request |
+-----------
+  1 byte
+
+Response
+-------------- (...)">
+				<a href="/page/show/14/list">
+					<i class="icon-chevron-right pull-right" style="opacity: 0.5;"></i>
+					LIST
+				</a>
+			</li>
+							<li class="divider"></li>
+								<li id="subpage-15" title="Erase a named database and all its content. The database must have been specified before.
+It is not possible to drop the (...)">
+				<a href="/page/show/15/drop">
+					<i class="icon-chevron-right pull-right" style="opacity: 0.5;"></i>
+					DROP
+				</a>
+			</li>
+							<li class="divider"></li>
+								<li id="subpage-26" title="Check a running connection.
+
+Request
+-----------
+| request |
+-----------
+  1 byte
+
+Response
+----------
+| answer |
+------ (...)">
+				<a href="/page/show/26/ping">
+					<i class="icon-chevron-right pull-right" style="opacity: 0.5;"></i>
+					PING
+				</a>
+			</li>
+						</ul>
+	
+		</div>
+				<div class="span9">
+											<ul class="breadcrumb">
+					<li><a href="/" title="Home"><i class="icon-home"></i></a></li>
+									</ul>
+								<h1>Protocol</h1>
+								<div id="content" class="well">
+					<p>The communication between FineDB client and server is based on a binary protocol. Requests start with a byte which describes the command and its options. This byte may be followed by other data, depending on the request type.</p>
+
+<p>Responses start also with a byte containing a result code and some useful information. This byte may be followed by other data, depending on the request type and the result of the request processing.</p>
+
+<h2 id="Request-byte">Request byte</h2>
+<pre>1 1 1 1 1 1 1 1
+| | | | | | | |
+| | | | `--------&gt; command [1]
+| | | |
+| | | `----------&gt; synchronous [2]
+| | |
+| | `------------&gt; serialized data [3]
+| |
+| `--------------&gt; compression [4]
+|
+`----------------&gt; server to server command [5]</pre>
+
+<p>[1]: Request command.</p>
+<ul>
+<li><tt>0000</tt> ➔ PING (check the connection)
+</li>
+<li><tt>0001</tt> ➔ GET (get a data from its key)
+</li>
+<li><tt>0010</tt> ➔ DEL (delete a key/value pair)
+</li>
+<li><tt>0011</tt> ➔ PUT (add or update a key/value)
+</li>
+<li><tt>0100</tt> ➔ SETDB (set database name for subsequent requests)
+</li>
+<li><tt>0101</tt> ➔ START (start a transaction)
+</li>
+<li><tt>0110</tt> ➔ STOP (stop a transaction)
+</li>
+<li><tt>0111</tt> ➔ not defined yet
+</li>
+<li><tt>1000</tt> ➔ not defined yet
+</li>
+<li><tt>1001</tt> ➔ not defined yet
+</li>
+<li><tt>1010</tt> ➔ not defined yet
+</li>
+<li><tt>1011</tt> ➔ not defined yet
+</li>
+<li><tt>1100</tt> ➔ not defined yet
+</li>
+<li><tt>1101</tt> ➔ not defined yet
+</li>
+<li><tt>1110</tt> ➔ ADMIN (administration command)
+</li>
+<li><tt>1111</tt> ➔ EXTRA (other command expressed in a second request byte)</li></ul>
+
+<p>[2]: Synchronous request.
+<br />[3]: Data are serialized (PUT/ADD/UPDATE request only).
+<br />[4]: Compression option.</p>
+<ul>
+<li>GET command ➔ the client accepts compressed data.
+</li>
+<li>PUT command ➔ compressed data are sent.</li></ul>
+
+<p>[5]: Replication between servers.</p>
+
+<h2 id="Response-byte">Response byte</h2>
+<pre>/------------&gt; unused bit [1]
+|
+1 1 1 1 1 1 1 1
+  | | | | | | |
+  | | | | | | `--&gt; status bit [2]
+  | | | | | |
+  | | `----------&gt; error code [3]
+  | |
+  | `------------&gt; serialized data [4]
+  |
+  `--------------&gt; compression [5]</pre>
+
+<p>[1]: Free for future usage.
+<br />[2]: Status of the request processing.</p>
+<ul>
+<li><tt>0</tt> ➔ error
+</li>
+<li><tt>1</tt> ➔ OK</li></ul>
+
+<p>[3]: Type of the encountered error.</p>
+<ul>
+<li><tt>0000</tt> ➔ undefined error
+</li>
+<li><tt>0001</tt> ➔ protocol error
+</li>
+<li><tt>0010</tt> ➔ server error
+</li>
+<li><tt>0011</tt> ➔ full database
+</li>
+<li><tt>0100</tt> ➔ too many opened databases
+</li>
+<li><tt>0101</tt> ➔ bad name (dbname for SETDB request, key for GET or DEL request)
+</li>
+<li><tt>0110</tt> ➔ transaction error</li></ul>
+
+<p>[4]: Returned data are serialized (GET request only).
+<br />[5]: Returned data are compressed (GET request only).</p>
+
+				</div>
+																					<div id="disqus_thread"></div>
+									</div>
+	</div>
+</div>
+
+
+<footer class="footer">
+	<div class="container">
+		<p>
+			© 2013, Amaury Bouchard |
+			<a href="http://skriv.org" target="_blank">Skriv</a> [write/work/organize]
+		</p>
+	</div>
+</footer>
+
+<script type="text/javascript"><!--
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-43066921-1']);
+  _gaq.push(['_trackPageview']);
+
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+//--></script>
+
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>FineDB: Benchmarks</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+		<link href="/css/bootstrap-2.3.1.css" rel="stylesheet" media="screen" />
+	<script src="/js/bootstrap.min.js" type="text/javascript"></script>
+		<link href="/css/prettify.css" type="text/css" rel="stylesheet" />
+	<script src="/js/prettify.js" type="text/javascript"></script>
+		<link href="/css/style.css" rel="stylesheet" media="screen" />
+	<script src="/js/ark.js" type="text/javascript"></script>
+				<script type="text/javascript" src="//finedb.disqus.com/embed.js" async></script>
+	</head>
+<body onload="prettyPrint()" >
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container-fluid">
+			<a href="/" class="brand">FineDB</a>
+						<ul class="nav pull-right">
+									<li><a href="/identification/login">Login</a></li>
+							</ul>
+		</div>
+	</div>
+</div>
+<style type="text/css">
+	table.bordered {
+		border: 1px solid #888;
+	}
+	table.bordered th {
+		border: 1px solid #888;
+		padding: 3px;
+		background-color: #ddd;
+	}
+	table.bordered td {
+		border: 1px solid #888;
+		padding: 3px;
+		background-color: #fff;
+	}
+	div.bordered {
+		border: 1px solid #888;
+		display: inline-block;
+	}
+</style>
+
+<div id="modal-move" class="modal hide fade" data-keyboard="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3>Move page</h3>
+	</div>
+	<div class="modal-body">
+		<div style="margin-bottom: 8px;">
+			<i class="icon-home"></i> Homepage
+			<button class="btn" onclick="ark.movePage(19, 0)">Move</button>
+		</div>
+					<div id="move-list-0">
+		<form class="form-inline" onsubmit="return false" style="margin-bottom: 8px;">
+			<select id="sel-move-0" onchange="ark.selectMove(19, 0, this.value)" style="width: 400px;">
+				<option value="0">Choose a page...</option>
+															<option value="18">Licenses</option>
+																				<option value="1">Protocol</option>
+																				<option value="20">Internal design</option>
+																				<option value="16">Development status</option>
+																				<option value="17">Comparison with other database systems</option>
+																				<option value="3">Links</option>
+												</select>
+			<button id="btn-move-0" onclick="ark.movePage(19, 0)" class="btn hide">Move</button>
+		</form>
+	</div>
+	<div id="move-sub-0"></div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" onclick="$('#modal-move').modal('hide')">Cancel</a>
+	</div>
+</div>
+<div class="container-fluid">
+	<div class="row-fluid">
+				<div class="span3">
+				<div class="well well-small clearfix" style="margin-bottom: 0.5em;">
+					<a href="/page/show/17" class="btn btn-info" title="Go to parent page"><i class="icon-arrow-up"></i></a>
+								</div>
+
+		</div>
+				<div class="span9">
+											<ul class="breadcrumb">
+					<li><a href="/" title="Home"><i class="icon-home"></i></a> <span class="divider">/</span></li>
+											<li>
+							<a href="/page/show/17">Comparison with other database systems</a>
+													</li>
+									</ul>
+								<h1>Benchmarks</h1>
+								<div id="content" class="well">
+					<h2 id="First-benchmark">First benchmark</h2>
+<p>4 keys with real JSON-serialized data were written 45 times, and then read 45 times. All operations were done sequentially (one after the other). Client and server were running on the same computer.
+<br />Data size is between 384 and 999 bytes. See the <a href="https://github.com/Amaury/FineDB/blob/master/test/test_proto.php" target="_blank" rel="nofollow">test/test_proto.php</a> file.</p>
+
+<table class="bordered"><tr><th>-</th><th>low-end machine (1)</th><th>mid-end machine (2)</th><th>difference (3)</th></tr>
+<tr><th>FineDB</th><th></th><th></th><th></th></tr>
+<tr><td>PUT ASYNC</td><td>0.045538000</td><td>0.019501000</td><td>162 %</td></tr>
+<tr><td>PUT SYNC</td><td>2.851891000</td><td><em>1.484574000</em></td><td><em>100%</em></td></tr>
+<tr><td>GET</td><td><strong>0.007852000</strong></td><td><strong>0.006843000</strong></td><td><strong>100 %</strong></td></tr>
+<tr><th>Redis</th><th></th><th></th><th></th></tr>
+<tr><td>PUT</td><td><strong>0.018614000</strong></td><td><strong>0.011981000</strong></td><td><strong>100 %</strong></td></tr>
+<tr><td>GET</td><td>0.013622000</td><td>0.012473000</td><td>182 %</td></tr>
+<tr><th>Couchbase</th><th></th><th></th><th></th></tr>
+<tr><td>PUT</td><td></td><td>0.028879000</td><td>241 %</td></tr>
+<tr><td>GET</td><td></td><td>0.012061000</td><td>176 %</td></tr>
+<tr><th>MongoDB</th><th></th><th></th><th></th></tr>
+<tr><td>PUT ASYNC</td><td></td><td>0.012907000</td><td>107 %</td></tr>
+<tr><td>PUT SYNC</td><td></td><td><em>6.384701999</em></td><td>430 %</td></tr>
+<tr><td>GET</td><td></td><td>0.015808000</td><td>231 %</td></tr>
+<tr><th>MySQL</th><th></th><th></th><th></th></tr>
+<tr><td>PUT</td><td></td><td>0.356792000</td><td>2977 %</td></tr>
+<tr><td>GET</td><td></td><td>0.009263999</td><td>135 %</td></tr>
+<tr><th>Memcache</th><th></th><th></th></tr>
+<tr><td>PUT</td><td>0.046465000</td><td>0.001676000</td></tr>
+<tr><td>GET</td><td>0.010596000</td><td>0.000588000</td></tr></table>
+
+<p>Time in seconds. The best values in bold (except Memcache, which is here for comparison purpose only).</p>
+
+<ul>
+<li>(1) Low-end machine: single core, RAM 2 GB, SSD
+</li>
+<li>(2) Mid-end machine: quad-core i3 2130 3.4 GHz, RAM 4 GB, SSD
+</li>
+<li>(3) Difference with the best performer, on the mid-end machine</li></ul>
+
+				</div>
+																					<div id="disqus_thread"></div>
+									</div>
+	</div>
+</div>
+
+
+<footer class="footer">
+	<div class="container">
+		<p>
+			© 2013, Amaury Bouchard |
+			<a href="http://skriv.org" target="_blank">Skriv</a> [write/work/organize]
+		</p>
+	</div>
+</footer>
+
+<script type="text/javascript"><!--
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-43066921-1']);
+  _gaq.push(['_trackPageview']);
+
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+//--></script>
+
+</body>
+</html>

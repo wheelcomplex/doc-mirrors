@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>FineDB: Comparison with other database systems</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+		<link href="/css/bootstrap-2.3.1.css" rel="stylesheet" media="screen" />
+	<script src="/js/bootstrap.min.js" type="text/javascript"></script>
+		<link href="/css/prettify.css" type="text/css" rel="stylesheet" />
+	<script src="/js/prettify.js" type="text/javascript"></script>
+		<link href="/css/style.css" rel="stylesheet" media="screen" />
+	<script src="/js/ark.js" type="text/javascript"></script>
+				<script type="text/javascript" src="//finedb.disqus.com/embed.js" async></script>
+	</head>
+<body onload="prettyPrint()" >
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container-fluid">
+			<a href="/" class="brand">FineDB</a>
+						<ul class="nav pull-right">
+									<li><a href="/identification/login">Login</a></li>
+							</ul>
+		</div>
+	</div>
+</div>
+<style type="text/css">
+	table.bordered {
+		border: 1px solid #888;
+	}
+	table.bordered th {
+		border: 1px solid #888;
+		padding: 3px;
+		background-color: #ddd;
+	}
+	table.bordered td {
+		border: 1px solid #888;
+		padding: 3px;
+		background-color: #fff;
+	}
+	div.bordered {
+		border: 1px solid #888;
+		display: inline-block;
+	}
+</style>
+
+<div id="modal-move" class="modal hide fade" data-keyboard="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3>Move page</h3>
+	</div>
+	<div class="modal-body">
+		<div style="margin-bottom: 8px;">
+			<i class="icon-home"></i> Homepage
+			<button class="btn" onclick="ark.movePage(17, 0)">Move</button>
+		</div>
+					<div id="move-list-0">
+		<form class="form-inline" onsubmit="return false" style="margin-bottom: 8px;">
+			<select id="sel-move-0" onchange="ark.selectMove(17, 0, this.value)" style="width: 400px;">
+				<option value="0">Choose a page...</option>
+															<option value="18">Licenses</option>
+																				<option value="1">Protocol</option>
+																				<option value="20">Internal design</option>
+																				<option value="16">Development status</option>
+																													<option value="3">Links</option>
+												</select>
+			<button id="btn-move-0" onclick="ark.movePage(17, 0)" class="btn hide">Move</button>
+		</form>
+	</div>
+	<div id="move-sub-0"></div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" onclick="$('#modal-move').modal('hide')">Cancel</a>
+	</div>
+</div>
+<div class="container-fluid">
+	<div class="row-fluid">
+				<div class="span3">
+				<div class="well well-small clearfix" style="margin-bottom: 0.5em;">
+					<a href="/page/show/0" class="btn btn-info" title="Go to parent page"><i class="icon-arrow-up"></i></a>
+								</div>
+		<ul class="_pages-sortable nav nav-tabs nav-stacked" style="background-color: #f8f8f8;">
+					<li id="subpage-19" title="First benchmark
+4 keys with real JSON-serialized data were written 45 times, and then read 45 times. All operations were (...)">
+				<a href="/page/show/19/benchmarks">
+					<i class="icon-chevron-right pull-right" style="opacity: 0.5;"></i>
+					Benchmarks
+				</a>
+			</li>
+						</ul>
+	
+		</div>
+				<div class="span9">
+											<ul class="breadcrumb">
+					<li><a href="/" title="Home"><i class="icon-home"></i></a></li>
+									</ul>
+								<h1>Comparison with other database systems</h1>
+								<div id="content" class="well">
+					<h2 id="Summary">Summary</h2>
+<table class="bordered"><tr><th>database</th><th>key length</th><th>data length</th><th>Transactions</th><th>License</th></tr>
+<tr><td>FineDB</td><td>64 KB</td><td>4 GB</td><td>partial</td><td>Apache</td></tr>
+<tr><td>Redis</td><td>2 GB</td><td>512 MB</td><td>yes</td><td>BSD</td></tr>
+<tr><td>Couchbase</td><td>250 bytes</td><td>20 MB</td><td>no</td><td>Apache</td></tr>
+<tr><td>FoundationDB</td><td>10 KB</td><td>100 KB</td><td>yes</td><td>Proprietary</td></tr>
+<tr><td>Riak</td><td>255 bytes</td><td>64 MB</td><td>no</td><td>Apache</td></tr>
+<tr><td>Cassandra</td><td>64 KB</td><td>2 GB</td><td>no</td><td>Apache</td></tr>
+<tr><td>MongoDB</td><td>128 bytes</td><td>16 MB</td><td>no</td><td>GNU AGPL</td></tr>
+<tr><td>HyperDex</td><td>?</td><td>128 MB</td><td>yes</td><td>BSD + proprietary</td></tr>
+<tr><td>DynamoDB</td><td>64 KB</td><td>64 KB</td><td>no</td><td>Proprietary</td></tr></table>
+
+
+<h2 id="Data-length">Data length</h2>
+<h3 id="FineDB">FineDB</h3>
+<ul>
+<li>keys: up to 64 KB
+</li>
+<li>values: up to 4 GB</li></ul>
+
+
+<h3 id="Redis">Redis</h3>
+<ul>
+<li>keys: up to <a href="https://groups.google.com/forum/#!topic/redis-db/HH4z-8mHNLM" target="_blank" rel="nofollow">2 GB</a>
+</li>
+<li>values: up to <a href="http://redis.io/topics/data-types" target="_blank" rel="nofollow">512 MB</a></li></ul>
+
+
+<h3 id="Couchbase">Couchbase</h3>
+<ul>
+<li>keys: <a href="http://www.couchbase.com/docs/couchbase-devguide-2.0/couchbase-keys.html" target="_blank" rel="nofollow">250 bytes</a>
+</li>
+<li>values: <a href="http://www.couchbase.com/docs/couchbase-devguide-2.0/couchbase-values.html" target="_blank" rel="nofollow">20 MB</a></li></ul>
+
+
+<h3 id="FoundationDB-http-foundationdb-com-documentation-beta2-known-limitations-html-large-keys-and-values"><a href="http://foundationdb.com/documentation/beta2/known-limitations.html#large-keys-and-values" target="_blank" rel="nofollow">FoundationDB</a></h3>
+<ul>
+<li>keys: up to 10 KB
+</li>
+<li>values: up to 100 KB</li></ul>
+
+
+<h3 id="Riak">Riak</h3>
+<ul>
+<li>keys: up to <a href="http://lists.basho.com/pipermail/riak-users_lists.basho.com/2010-April/000936.html" target="_blank" rel="nofollow">255 bytes</a>
+</li>
+<li>values: <a href="http://lists.basho.com/pipermail/riak-users_lists.basho.com/2011-February/003283.html" target="_blank" rel="nofollow">“practical limit around 64 MB”</a></li></ul>
+
+
+<h3 id="Cassandra-Apache">Cassandra (Apache)</h3>
+<ul>
+<li>keys: less than <a href="http://wiki.apache.org/cassandra/FAQ#max_key_size" target="_blank" rel="nofollow">64 KB</a>
+</li>
+<li>column values: less than 2 GB; «<a href="http://wiki.apache.org/cassandra/CassandraLimitations" target="_blank" rel="nofollow">&quot;single digits of MB&quot; in practice</a>»</li></ul>
+
+
+<h3 id="MongoDB-http-docs-mongodb-org-manual-reference-limits"><a href="http://docs.mongodb.org/manual/reference/limits/" target="_blank" rel="nofollow">MongoDB</a></h3>
+<ul>
+<li>index names: up to <a href="http://docs.mongodb.org/manual/reference/limits/#Index Name Length" target="_blank" rel="nofollow">128 bytes</a>
+</li>
+<li>documents: up to 16 MB once BSON-serialized</li></ul>
+
+
+<h3 id="Hyperdex">Hyperdex</h3>
+<ul>
+<li>documents: <a href="https://groups.google.com/forum/#!topic/hyperdex-discuss/Htv2Ur6tt4E" target="_blank" rel="nofollow">up to 128 MB</a></li></ul>
+
+
+<h3 id="DynamoDB-Amazon">DynamoDB (Amazon)</h3>
+<ul>
+<li>keys: up to 64 KB
+</li>
+<li>values: up to <a href="http://aws.amazon.com/en/dynamodb/faqs/#Is_there_a_limit_on_the_size_of_an_item" target="_blank" rel="nofollow">64 KB</a></li></ul>
+
+
+<p>The 64 KB limit applies on a whole element, its attribute names and values. See <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html" target="_blank" rel="nofollow">http://docs.aws.amazon.com/amazondynamod...</a></p>
+
+
+<h2 id="Transactions">Transactions</h2>
+<h3 id="Redis">Redis</h3>
+<p><a href="http://redis.io/topics/transactions" target="_blank" rel="nofollow">Transactions are supported</a>.</p>
+
+<h3 id="Couchbase">Couchbase</h3>
+<p>Multi-operation transactions are <a href="http://www.couchbase.com/forums/thread/transaction-and-concurency" target="_blank" rel="nofollow">not supported</a>.</p>
+
+<h3 id="FoundationDB">FoundationDB</h3>
+<p><a href="https://foundationdb.com/white-papers/the-transaction-manifesto/" target="_blank" rel="nofollow">Transactions are supported</a>.</p>
+
+<h3 id="Riak">Riak</h3>
+<p>Transactions are <a href="http://littleriakbook.com/#toc_8" target="_blank" rel="nofollow">not supported</a>.</p>
+
+<h3 id="Cassandra">Cassandra</h3>
+<p>Transactions are <a href="http://www.datastax.com/docs/1.1/dml/about_writes#about-transactions" target="_blank" rel="nofollow">not supported</a>.</p>
+
+<h3 id="MongoDB">MongoDB</h3>
+<p>Multi-operation transactions are <a href="http://docs.mongodb.org/manual/faq/fundamentals/#does-mongodb-support-transactions" target="_blank" rel="nofollow">not supported</a>.</p>
+
+<h3 id="HyperDex">HyperDex</h3>
+<p><a href="http://hyperdex.org/doc/07.transactions/" target="_blank" rel="nofollow">Transactions are supported</a> by the Warp superset.</p>
+
+<h3 id="DynamoDB">DynamoDB</h3>
+<p>Multi-operation transactions are <a href="http://aws.amazon.com/fr/dynamodb/faqs/#Does_Amazon_DynamoDB_support_transactions" target="_blank" rel="nofollow">not supported</a>.</p>
+
+
+<h2 id="Licenses">Licenses</h2>
+<h3 id="FineDB">FineDB</h3>
+<p><a href="http://www.finedb.org/page/show/18" target="_blank" rel="nofollow">Apache v2.0</a></p>
+
+<h3 id="Redis-http-redis-io-topics-license"><a href="http://redis.io/topics/license" target="_blank" rel="nofollow">Redis</a></h3>
+<p>Three clause BSD license</p>
+
+<h3 id="Couchbase-http-www-couchbase-com-couchbase-open-source-project"><a href="http://www.couchbase.com/couchbase-open-source-project" target="_blank" rel="nofollow">Couchbase</a></h3>
+<ul>
+<li>Community Edition: <a href="http://www.couchbase.com/docs/licensing/licenses-community.html" target="_blank" rel="nofollow">Apache License v2.0</a>
+</li>
+<li>Enterprise Edition: <a href="http://www.couchbase.com/docs/licensing/licenses-enterprise.html" target="_blank" rel="nofollow">Proprietary</a></li></ul>
+
+
+<h3 id="FoundationDB-http-foundationdb-com-faq"><a href="http://foundationdb.com/faq/" target="_blank" rel="nofollow">FoundationDB</a></h3>
+<p>Commercial licenses.</p>
+
+<h3 id="Riak-https-github-com-basho-riak-blob-master-LICENSE"><a href="https://github.com/basho/riak/blob/master/LICENSE" target="_blank" rel="nofollow">Riak</a></h3>
+<p>Apache License v2.0</p>
+
+<h3 id="Cassandra-http-cassandra-apache-org"><a href="http://cassandra.apache.org/" target="_blank" rel="nofollow">Cassandra</a></h3>
+<p>Apache License v2.0</p>
+
+<h3 id="MongoDB-http-www-mongodb-org-about-licensing"><a href="http://www.mongodb.org/about/licensing/" target="_blank" rel="nofollow">MongoDB</a></h3>
+<ul>
+<li>Server and tools: <a href="http://www.fsf.org/licensing/licenses/agpl-3.0.html" target="_blank" rel="nofollow">GNU AGPL v3.0</a>
+</li>
+<li>Drivers: <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="nofollow">Apache License v2.0</a>
+</li>
+<li>Documentation: <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank" rel="nofollow">Creative Commons BY-NC-SA</a></li></ul>
+
+
+<h3 id="Hyperdex">Hyperdex</h3>
+<p><a href="http://hyperdex.org/FAQ/" target="_blank" rel="nofollow">BSD license for the core + proprietary license for transactions</a>.</p>
+
+<h3 id="DynamoDB-http-en-wikipedia-org-wiki-Amazon_DynamoDB"><a href="http://en.wikipedia.org/wiki/Amazon_DynamoDB" target="_blank" rel="nofollow">DynamoDB</a></h3>
+<p>Proprietary. SaaS service, not installable.</p>
+
+				</div>
+																					<div id="disqus_thread"></div>
+									</div>
+	</div>
+</div>
+
+
+<footer class="footer">
+	<div class="container">
+		<p>
+			© 2013, Amaury Bouchard |
+			<a href="http://skriv.org" target="_blank">Skriv</a> [write/work/organize]
+		</p>
+	</div>
+</footer>
+
+<script type="text/javascript"><!--
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-43066921-1']);
+  _gaq.push(['_trackPageview']);
+
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+//--></script>
+
+</body>
+</html>
